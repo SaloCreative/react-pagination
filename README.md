@@ -1,48 +1,85 @@
-# React Component Starter Kit
+# react-pagination
 
-This is supposed to be a simple starter-kit for creating Open Source React
-Components. It should include/support:
-
-* a nice README
-* some kind of LICENSE
-* build + tests
-* dist files (amd, common, global)
-* .dotfiles
-* example + demo (gh-pages, maybe?)
-
-### Commands
-
-```shell
-$ cd your-component
-$ yarn                          # Install development dependencies
-$ npm run bundle                # Build scripts
-$ npm run demo                  # Run webpack dev server
-```
-
----
-
-# manager-component-name
-
-Description of component and any special notes
+Simple React pagination component
 
 ## Usage
 
 Install
 
 ```
-yarn add @salocreative/component-name
+yarn add @salocreative/react-pagination
 ```
 
 Include the component at the top of the component it's required in.
 
 ```
-import ComponentName from '@salocreative/component-name';
+import Accordion from '@salocreative/react-pagination';
 ```
 
-Implement as follows
+Basic implementation requirement
 
 ```
-<ComponentName />
+<Pagination
+    total={ this.state.total }
+    page={ this.state.page }
+    changePage={ (e) => this.changePage(e) } />
+```
+
+Example implementation as follows
+
+```
+class Demo extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      total: 52,
+      page: 1,
+      perPage: 25
+    }
+  }
+
+  changePage() {
+    return (e) => {
+      let page = parseInt(e.target.getAttribute('data-page'));
+      this.setState({page});
+    };
+  }
+
+  render() {
+    return (
+      <Pagination
+          total={ this.state.total }
+          page={ this.state.page }
+          perPage={ this.state.perPage }
+          changePage={ (e) => this.changePage(e) } />
+    );
+  }
+
+}
+
+render(<Demo />, document.getElementById('demo'));
+
+```
+
+You can also set some style overrides for the core colours in the component
+
+```
+const styles = {
+  colour: '#000',
+  activeColour: '#FFF',
+  background: '#FFF',
+  highlightBackground: '#CECECE',
+  activeBackground: '#000'
+};
+
+<Pagination { ...this.props }
+          total={ this.state.total }
+          page={ this.state.page }
+          perPage={ this.state.perPage }
+          changePage={ (e) => this.changePage(e) }
+          styles={ styles } />
+
 ```
 
 ## LICENSE
