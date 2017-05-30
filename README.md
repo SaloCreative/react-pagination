@@ -16,6 +16,15 @@ Include the component at the top of the component it's required in.
 import Accordion from '@salocreative/react-pagination';
 ```
 
+Basic implementation requirement
+
+```
+<Pagination
+    total={ this.state.total }
+    page={ this.state.page }
+    changePage={ (e) => this.changePage(e) } />
+```
+
 Example implementation as follows
 
 ```
@@ -64,7 +73,7 @@ const styles = {
   activeBackground: '#000'
 };
 
-<Pagination
+<Pagination { ...this.props }
           total={ this.state.total }
           page={ this.state.page }
           perPage={ this.state.perPage }
