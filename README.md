@@ -13,7 +13,7 @@ yarn add @salocreative/react-pagination
 Include the component at the top of the component it's required in.
 
 ```
-import Accordion from '@salocreative/react-pagination';
+import Pagination from '@salocreative/react-pagination';
 ```
 
 Basic implementation requirement
