@@ -57,15 +57,19 @@ You can also set some style overrides for the core colours in the component
 
 ```
 const styles = {
-  titleBackground: '#F7F8F9',
-  titleColor: '#000',
-  titleBackgroundActive: '#000',
-  titleColorActive: '#fff',
-  contentBackground: '#fff',
-  contentColor: '#000'
+  colour: '#000',
+  activeColour: '#FFF',
+  background: '#FFF',
+  highlightBackground: '#CECECE',
+  activeBackground: '#000'
 };
 
-<Accordion { ...this.props } data={ data } styles={ styles } />
+<Pagination
+          total={ this.state.total }
+          page={ this.state.page }
+          perPage={ this.state.perPage }
+          changePage={ (e) => this.changePage(e) }
+          styles={ styles } />
 
 ```
 
