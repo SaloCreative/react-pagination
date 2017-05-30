@@ -18,7 +18,6 @@ class Demo extends Component {
 
   changePage() {
     return (e) => {
-      console.log(e.target.getAttribute('data-page'));
       let page = parseInt(e.target.getAttribute('data-page'));
       this.setState({page});
     };
@@ -30,7 +29,9 @@ class Demo extends Component {
           total={ this.state.total }
           page={ this.state.page }
           perPage={ this.state.perPage }
-          changePage={ (e) => this.changePage(e) } />
+          changePage={ (e) => this.changePage(e) }
+          previous={ '<<' }
+          next={ '>>' } />
     );
   }
 

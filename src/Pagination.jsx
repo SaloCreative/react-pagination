@@ -16,9 +16,9 @@ const styles = {
   pagination__item: {
     height: '40px',
     width: '40px',
-    border: '1px solid',
-    borderColor: props => props.styles.highlightBackground,
     margin: '0 5px',
+    transition: 'all 0.3s ease-in-out',
+    background: props => props.styles.background,
     '&:hover': {
       background: props => props.styles.highlightBackground,
       color: props => props.styles.activeColour
@@ -29,7 +29,6 @@ const styles = {
     },
     '&.active': {
       background: props => props.styles.activeBackground,
-      borderColor: props => props.styles.activeBackground,
       color: props => props.styles.activeColour
     }
   },
@@ -54,13 +53,13 @@ class PaginationNext extends Component {
       if (page < pages) {
         return (
             <li className={`pagination__next ${ classes.pagination__item }`}>
-              <a className={ classes.a } data-page={ page + 1 } onClick={ this.props.itemClicked() } >Next</a>
+              <a className={ classes.a } data-page={ page + 1 } onClick={ this.props.itemClicked() } >{ this.props.next }</a>
             </li>
         );
       }
       return (
           <li className={`pagination__next ${ classes.pagination__item } disabled`}>
-            <a className={ classes.a } >Next</a>
+            <a className={ classes.a } >{ this.props.next }</a>
           </li>
       );
     }
@@ -82,13 +81,13 @@ class PaginationPrevious extends Component {
       if (page > 1) {
         return (
             <li className={`pagination__previous ${ classes.pagination__item }`}>
-              <a className={ classes.a } data-page={ page - 1 } onClick={ this.props.itemClicked() } >Previous</a>
+              <a className={ classes.a } data-page={ page - 1 } onClick={ this.props.itemClicked() } >{ this.props.previous }</a>
             </li>
         );
       }
       return (
           <li className={`pagination__previous ${ classes.pagination__item } disabled`}>
-            <a className={ classes.a } >Previous</a>
+            <a className={ classes.a } >{ this.props.previous }</a>
           </li>
       );
     }
@@ -122,7 +121,8 @@ class Pagination extends Component {
             page={ page }
             pages={ pages }
             itemClicked={ (e) => this.props.changePage(e) }
-            classes={ classes }/>
+            classes={ classes }
+            previous={ this.props.previous } />
 
         { pageItems }
 
@@ -130,7 +130,8 @@ class Pagination extends Component {
             page={ page }
             pages={ pages }
             itemClicked={ (e) => this.props.changePage(e) }
-            classes={ classes }/>
+            classes={ classes }
+            next={ this.props.next } />
       </ul>
     );
   }
@@ -146,7 +147,9 @@ Pagination.defaultProps = {
     background: '#FFF',
     highlightBackground: '#CECECE',
     activeBackground: '#000'
-  }
+  },
+  previous: '<<',
+  next: '>>'
 };
 
 Pagination.propTypes = {
@@ -155,7 +158,9 @@ Pagination.propTypes = {
   page: PropTypes.number,
   changePage: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  styles: PropTypes.object
+  styles: PropTypes.object,
+  previous: PropTypes.string,
+  next: PropTypes.string
 };
 
 
