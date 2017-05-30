@@ -12,6 +12,65 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactJss = require('react-jss');
+
+var _reactJss2 = _interopRequireDefault(_reactJss);
+
+var styles = {
+  pagination: {
+    position: 'relative',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    padding: '0',
+    listStyle: 'none',
+    justifyContent: 'center'
+  },
+  pagination__item: {
+    height: '40px',
+    width: '40px',
+    margin: '0 5px',
+    transition: 'all 0.3s ease-in-out',
+    background: function background(props) {
+      return props.styles.background;
+    },
+    '&:hover': {
+      background: function background(props) {
+        return props.styles.highlightBackground;
+      },
+      color: function color(props) {
+        return props.styles.activeColour;
+      }
+    },
+    '&.disabled': {
+      background: function background(props) {
+        return props.styles.background;
+      },
+      opacity: '0.4'
+    },
+    '&.active': {
+      background: function background(props) {
+        return props.styles.activeBackground;
+      },
+      color: function color(props) {
+        return props.styles.activeColour;
+      }
+    }
+  },
+  a: {
+    alignItems: 'center',
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    '.disabled &': {
+      cursor: 'default',
+      color: '#000'
+    }
+  }
+};
+
 var PaginationNext = (function (_Component) {
   _inherits(PaginationNext, _Component);
 
@@ -25,26 +84,27 @@ var PaginationNext = (function (_Component) {
     var _props = this.props;
     var page = _props.page;
     var pages = _props.pages;
+    var classes = _props.classes;
 
     if (pages > 1) {
       if (page < pages) {
         return _react2['default'].createElement(
           'li',
-          { className: 'pagination__next' },
+          { className: 'pagination__next ' + classes.pagination__item },
           _react2['default'].createElement(
             'a',
-            { 'data-page': page + 1, onClick: this.props.itemClicked() },
-            'Next'
+            { className: classes.a, 'data-page': page + 1, onClick: this.props.itemClicked() },
+            this.props.next
           )
         );
       }
       return _react2['default'].createElement(
         'li',
-        { className: 'pagination__next disabled' },
+        { className: 'pagination__next ' + classes.pagination__item + ' disabled' },
         _react2['default'].createElement(
           'a',
-          null,
-          'Next'
+          { className: classes.a },
+          this.props.next
         )
       );
     }
@@ -57,7 +117,8 @@ var PaginationNext = (function (_Component) {
 PaginationNext.propTypes = {
   page: _react.PropTypes.number,
   pages: _react.PropTypes.number,
-  itemClicked: _react.PropTypes.func.isRequired
+  itemClicked: _react.PropTypes.func.isRequired,
+  classes: _react.PropTypes.object.isRequired
 };
 
 var PaginationPrevious = (function (_Component2) {
@@ -73,26 +134,27 @@ var PaginationPrevious = (function (_Component2) {
     var _props2 = this.props;
     var page = _props2.page;
     var pages = _props2.pages;
+    var classes = _props2.classes;
 
     if (pages > 1) {
       if (page > 1) {
         return _react2['default'].createElement(
           'li',
-          { className: 'pagination__previous' },
+          { className: 'pagination__previous ' + classes.pagination__item },
           _react2['default'].createElement(
             'a',
-            { 'data-page': page - 1, onClick: this.props.itemClicked() },
-            'Previous'
+            { className: classes.a, 'data-page': page - 1, onClick: this.props.itemClicked() },
+            this.props.previous
           )
         );
       }
       return _react2['default'].createElement(
         'li',
-        { className: 'pagination__previous disabled' },
+        { className: 'pagination__previous ' + classes.pagination__item + ' disabled' },
         _react2['default'].createElement(
           'a',
-          null,
-          'Previous'
+          { className: classes.a },
+          this.props.previous
         )
       );
     }
@@ -105,7 +167,8 @@ var PaginationPrevious = (function (_Component2) {
 PaginationPrevious.propTypes = {
   page: _react.PropTypes.number,
   pages: _react.PropTypes.number,
-  itemClicked: _react.PropTypes.func.isRequired
+  itemClicked: _react.PropTypes.func.isRequired,
+  classes: _react.PropTypes.object.isRequired
 };
 
 var Pagination = (function (_Component3) {
@@ -124,6 +187,7 @@ var Pagination = (function (_Component3) {
     var perPage = _props3.perPage;
     var total = _props3.total;
     var page = _props3.page;
+    var classes = _props3.classes;
 
     var pages = Math.ceil(total / perPage);
     var pageItems = [];
@@ -131,10 +195,10 @@ var Pagination = (function (_Component3) {
       for (var i = 1; i <= pages; i++) {
         pageItems.push(_react2['default'].createElement(
           'li',
-          { className: 'active' },
+          { key: i, className: 'pagination__item ' + classes.pagination__item + ' ' + (i == page ? 'active' : '') },
           _react2['default'].createElement(
             'a',
-            { 'data-page': i, onClick: this.props.changePage() },
+            { className: classes.a, 'data-page': i, onClick: this.props.changePage() },
             i
           )
         ));
@@ -142,37 +206,54 @@ var Pagination = (function (_Component3) {
     }
     return _react2['default'].createElement(
       'ul',
-      { className: 'pagination' },
+      { className: 'pagination ' + classes.pagination },
       _react2['default'].createElement(PaginationPrevious, {
         page: page,
         pages: pages,
         itemClicked: function (e) {
           return _this.props.changePage(e);
-        } }),
+        },
+        classes: classes,
+        previous: this.props.previous }),
       pageItems,
       _react2['default'].createElement(PaginationNext, {
         page: page,
         pages: pages,
         itemClicked: function (e) {
           return _this.props.changePage(e);
-        } })
+        },
+        classes: classes,
+        next: this.props.next })
     );
   };
 
   return Pagination;
 })(_react.Component);
 
-exports['default'] = Pagination;
-
 Pagination.defaultProps = {
   perPage: 25,
-  page: 1
+  page: 1,
+  styles: {
+    colour: '#000',
+    activeColour: '#FFF',
+    background: '#FFF',
+    highlightBackground: '#CECECE',
+    activeBackground: '#000'
+  },
+  previous: '<<',
+  next: '>>'
 };
 
 Pagination.propTypes = {
   perPage: _react.PropTypes.number,
   total: _react.PropTypes.number.isRequired,
   page: _react.PropTypes.number,
-  changePage: _react.PropTypes.func.isRequired
+  changePage: _react.PropTypes.func.isRequired,
+  classes: _react.PropTypes.object.isRequired,
+  styles: _react.PropTypes.object,
+  previous: _react.PropTypes.string,
+  next: _react.PropTypes.string
 };
+
+exports['default'] = _reactJss2['default'](styles)(Pagination);
 module.exports = exports['default'];
