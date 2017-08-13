@@ -15,9 +15,9 @@ module.exports = {
 
   // TODO: use your component name here
   output: {
-    filename: 'dist/react-component-starter-kit.js',
+    filename: 'dist/react-pagination.js',
     libraryTarget: 'umd',
-    library: 'ReactComponentStarterKit'
+    library: 'ReactPagination'
   },
 
   plugins: [

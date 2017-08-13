@@ -12,6 +12,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _reactJss = require('react-jss');
 
 var _reactJss2 = _interopRequireDefault(_reactJss);
@@ -115,10 +119,10 @@ var PaginationNext = (function (_Component) {
 })(_react.Component);
 
 PaginationNext.propTypes = {
-  page: _react.PropTypes.number,
-  pages: _react.PropTypes.number,
-  itemClicked: _react.PropTypes.func.isRequired,
-  classes: _react.PropTypes.object.isRequired
+  page: _propTypes2['default'].number,
+  pages: _propTypes2['default'].number,
+  itemClicked: _propTypes2['default'].func.isRequired,
+  classes: _propTypes2['default'].object.isRequired
 };
 
 var PaginationPrevious = (function (_Component2) {
@@ -165,10 +169,10 @@ var PaginationPrevious = (function (_Component2) {
 })(_react.Component);
 
 PaginationPrevious.propTypes = {
-  page: _react.PropTypes.number,
-  pages: _react.PropTypes.number,
-  itemClicked: _react.PropTypes.func.isRequired,
-  classes: _react.PropTypes.object.isRequired
+  page: _propTypes2['default'].number,
+  pages: _propTypes2['default'].number,
+  itemClicked: _propTypes2['default'].func.isRequired,
+  classes: _propTypes2['default'].object.isRequired
 };
 
 var Pagination = (function (_Component3) {
@@ -245,14 +249,14 @@ Pagination.defaultProps = {
 };
 
 Pagination.propTypes = {
-  perPage: _react.PropTypes.number,
-  total: _react.PropTypes.number.isRequired,
-  page: _react.PropTypes.number,
-  changePage: _react.PropTypes.func.isRequired,
-  classes: _react.PropTypes.object.isRequired,
-  styles: _react.PropTypes.object,
-  previous: _react.PropTypes.string,
-  next: _react.PropTypes.string
+  perPage: _propTypes2['default'].number,
+  total: _propTypes2['default'].number.isRequired,
+  page: _propTypes2['default'].number,
+  changePage: _propTypes2['default'].func.isRequired,
+  classes: _propTypes2['default'].object.isRequired,
+  styles: _propTypes2['default'].object,
+  previous: _propTypes2['default'].string,
+  next: _propTypes2['default'].string
 };
 
 exports['default'] = _reactJss2['default'](styles)(Pagination);
