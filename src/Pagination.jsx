@@ -15,9 +15,11 @@ const styles = {
     justifyContent: 'center'
   },
   pagination__item: {
-    height: '40px',
-    width: '40px',
-    margin: '0 5px',
+    borderRadius: '50%',
+    height: '24px',
+    width: '24px',
+    margin: '0 8px',
+    fontSize: '11px',
     transition: 'all 0.3s ease-in-out',
     background: props => props.styles.background,
     '&:hover': {
@@ -32,6 +34,13 @@ const styles = {
       background: props => props.styles.activeBackground,
       color: props => props.styles.activeColour
     }
+  },
+  pagination__ellipsis: {
+    height: '24px',
+    width: '24px',
+    margin: '0 8px',
+    lineHeight: '24px',
+    textAlign: 'center'
   },
   a: {
     alignItems: 'center',
@@ -54,7 +63,7 @@ class PaginationNext extends Component {
       if (page < pages) {
         return (
             <li className={`pagination__next ${ classes.pagination__item }`}>
-              <a className={ classes.a } data-page={ page + 1 } onClick={ this.props.itemClicked() } >{ this.props.next }</a>
+              <a className={ classes.a } onClick={ this.props.itemClicked(page + 1) } >{ this.props.next }</a>
             </li>
         );
       }
@@ -82,7 +91,7 @@ class PaginationPrevious extends Component {
       if (page > 1) {
         return (
             <li className={`pagination__previous ${ classes.pagination__item }`}>
-              <a className={ classes.a } data-page={ page - 1 } onClick={ this.props.itemClicked() } >{ this.props.previous }</a>
+              <a className={ classes.a } onClick={ this.props.itemClicked(page - 1) } >{ this.props.previous }</a>
             </li>
         );
       }
@@ -105,32 +114,92 @@ PaginationPrevious.propTypes = {
 
 class Pagination extends Component {
 
+  renderPageItems(pages) {
+    const { page, classes, pagesToShow } = this.props;
+    let pageItems = [];
+    const pagesCount = Math.floor(parseInt(pagesToShow)/2);
+    // Check there ius more than one page of results
+    if (pages > 1) {
+
+      // Check if limit is set on pages to render
+      if (pagesCount && (pagesToShow < (pages + 1))) {
+
+        // Add first page and ellipsis
+        if ((pagesCount - (page - 1)) < 0) {
+          pageItems.push(
+            <li key={ 0 } className={ `pagination__item ${ classes.pagination__item } ${ page == 1 ? 'active' : '' }` } >
+              <a className={ classes.a } onClick={ this.props.changePage(1) }>{ 1 }</a>
+            </li>
+          );
+          pageItems.push(
+            <li key='ellip_first' className={ `pagination__ellipsis ${ classes.pagination__ellipsis }` }>…</li>
+          );
+        }
+
+        // Build out the middle list
+        let start = page - pagesCount;
+        let end = page + pagesCount;
+        if (start < 1) {
+          start = 1;
+          end = ((pagesCount * 2));
+        }
+
+        if (end > pages) {
+          end = pages;
+          start = pages - (pagesCount * 2);
+        }
+
+        for (let i = start; i <= end; i++) {
+          pageItems.push(<li key={ i } className={ `pagination__item ${ classes.pagination__item } ${ i == page ? 'active' : '' }` } >
+            <a className={ classes.a } onClick={ this.props.changePage(i) }>{ i }</a>
+          </li>);
+        }
+
+        // Add last page and ellipsis
+        if ((pagesCount + page) < pages) {
+          pageItems.push(
+            <li key='ellip_last' className={ `pagination__ellipsis ${ classes.pagination__ellipsis }` }>…</li>
+          );
+          pageItems.push(
+            <li key={ 9999 } className={ `pagination__item ${ classes.pagination__item } ${ page == pages ? 'active' : '' }` } >
+              <a className={ classes.a } onClick={ this.props.changePage(pages) }>{ pages }</a>
+            </li>
+          );
+        }
+      }
+
+        // Otherwise render them all
+      else {
+        for (let i = 1; i <= pages; i++) {
+          pageItems.push(
+            <li key={ i } className={ `pagination__item ${ classes.pagination__item } ${ i == page ? 'active' : '' }` } >
+              <a className={ classes.a } onClick={ this.props.changePage(i) }>{ i }</a>
+            </li>
+          );
+        }
+      }
+    }
+    return pageItems;
+  }
+
   render() {
     const { perPage, total, page, classes } = this.props;
     let pages = Math.ceil((total / perPage));
-    let pageItems = [];
-    if (pages > 1) {
-      for (let i = 1; i <= pages; i++) {
-        pageItems.push(<li key={ i } className={ `pagination__item ${ classes.pagination__item } ${ i == page ? 'active' : '' }` } >
-          <a className={ classes.a } data-page={ i } onClick={ this.props.changePage() }>{ i }</a>
-        </li>);
-      }
-    }
     return (
       <ul className={`pagination ${ classes.pagination }`}>
         <PaginationPrevious
             page={ page }
             pages={ pages }
-            itemClicked={ (e) => this.props.changePage(e) }
+            itemClicked={ (num) => this.props.changePage(num) }
             classes={ classes }
             previous={ this.props.previous } />
 
-        { pageItems }
+        { this.renderPageItems(pages) }
 
         <PaginationNext
             page={ page }
             pages={ pages }
-            itemClicked={ (e) => this.props.changePage(e) }
+            itemClicked={ (num) => this.props.changePage(num) }
             classes={ classes }
             next={ this.props.next } />
       </ul>
@@ -150,7 +219,8 @@ Pagination.defaultProps = {
     activeBackground: '#000'
   },
   previous: '<<',
-  next: '>>'
+  next: '>>',
+  pagesToShow: 0
 };
 
 Pagination.propTypes = {
@@ -161,7 +231,8 @@ Pagination.propTypes = {
   classes: PropTypes.object.isRequired,
   styles: PropTypes.object,
   previous: PropTypes.string,
-  next: PropTypes.string
+  next: PropTypes.string,
+  pagesToShow: PropTypes.number
 };
 
 
