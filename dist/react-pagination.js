@@ -294,7 +294,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (pages > 1) {
 
 	        // Check if limit is set on pages to render
-	        if (pagesCount && pagesToShow < pages + 1) {
+	        if (pagesCount && pagesToShow < pages - 1) {
 
 	          // Add first page and ellipsis
 	          if (pagesCount - (page - 1) < 0) {
