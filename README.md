@@ -10,6 +10,12 @@ Install
 yarn add @salocreative/react-pagination
 ```
 
+Include the stylesheet in your project
+
+```
+@import '~@salocreative/react-pagination/src/scss/styles';
+```
+
 Include the component at the top of the component it's required in.
 
 ```
@@ -58,26 +64,6 @@ class Demo extends Component {
 }
 
 render(<Demo />, document.getElementById('demo'));
-
-```
-
-You can also set some style overrides for the core colours in the component
-
-```
-const styles = {
-  colour: '#000',
-  activeColour: '#FFF',
-  background: '#FFF',
-  highlightBackground: '#CECECE',
-  activeBackground: '#000'
-};
-
-<Pagination { ...this.props }
-          total={ this.state.total }
-          page={ this.state.page }
-          perPage={ this.state.perPage }
-          changePage={ (e) => this.changePage(e) }
-          styles={ styles } />
 
 ```
 

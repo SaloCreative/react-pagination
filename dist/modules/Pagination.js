@@ -16,74 +16,6 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactJss = require('react-jss');
-
-var _reactJss2 = _interopRequireDefault(_reactJss);
-
-var styles = {
-  pagination: {
-    position: 'relative',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    padding: '0',
-    listStyle: 'none',
-    justifyContent: 'center'
-  },
-  pagination__item: {
-    borderRadius: '50%',
-    height: '24px',
-    width: '24px',
-    margin: '0 8px',
-    fontSize: '11px',
-    transition: 'all 0.3s ease-in-out',
-    background: function background(props) {
-      return props.styles.background;
-    },
-    '&:hover': {
-      background: function background(props) {
-        return props.styles.highlightBackground;
-      },
-      color: function color(props) {
-        return props.styles.activeColour;
-      }
-    },
-    '&.disabled': {
-      background: function background(props) {
-        return props.styles.background;
-      },
-      opacity: '0.4'
-    },
-    '&.active': {
-      background: function background(props) {
-        return props.styles.activeBackground;
-      },
-      color: function color(props) {
-        return props.styles.activeColour;
-      }
-    }
-  },
-  pagination__ellipsis: {
-    height: '24px',
-    width: '24px',
-    margin: '0 8px',
-    lineHeight: '24px',
-    textAlign: 'center'
-  },
-  a: {
-    alignItems: 'center',
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    '.disabled &': {
-      cursor: 'default',
-      color: '#000'
-    }
-  }
-};
-
 var PaginationNext = (function (_Component) {
   _inherits(PaginationNext, _Component);
 
@@ -97,26 +29,25 @@ var PaginationNext = (function (_Component) {
     var _props = this.props;
     var page = _props.page;
     var pages = _props.pages;
-    var classes = _props.classes;
 
     if (pages > 1) {
       if (page < pages) {
         return _react2['default'].createElement(
           'li',
-          { className: 'pagination__next ' + classes.pagination__item },
+          { className: 'pagination__next' },
           _react2['default'].createElement(
             'a',
-            { className: classes.a, onClick: this.props.itemClicked(page + 1) },
+            { onClick: this.props.itemClicked(page + 1) },
             this.props.next
           )
         );
       }
       return _react2['default'].createElement(
         'li',
-        { className: 'pagination__next ' + classes.pagination__item + ' disabled' },
+        { className: 'pagination__next disabled' },
         _react2['default'].createElement(
           'a',
-          { className: classes.a },
+          null,
           this.props.next
         )
       );
@@ -130,8 +61,7 @@ var PaginationNext = (function (_Component) {
 PaginationNext.propTypes = {
   page: _propTypes2['default'].number,
   pages: _propTypes2['default'].number,
-  itemClicked: _propTypes2['default'].func.isRequired,
-  classes: _propTypes2['default'].object.isRequired
+  itemClicked: _propTypes2['default'].func.isRequired
 };
 
 var PaginationPrevious = (function (_Component2) {
@@ -147,26 +77,25 @@ var PaginationPrevious = (function (_Component2) {
     var _props2 = this.props;
     var page = _props2.page;
     var pages = _props2.pages;
-    var classes = _props2.classes;
 
     if (pages > 1) {
       if (page > 1) {
         return _react2['default'].createElement(
           'li',
-          { className: 'pagination__previous ' + classes.pagination__item },
+          { className: 'pagination__previous' },
           _react2['default'].createElement(
             'a',
-            { className: classes.a, onClick: this.props.itemClicked(page - 1) },
+            { onClick: this.props.itemClicked(page - 1) },
             this.props.previous
           )
         );
       }
       return _react2['default'].createElement(
         'li',
-        { className: 'pagination__previous ' + classes.pagination__item + ' disabled' },
+        { className: 'pagination__previous disabled' },
         _react2['default'].createElement(
           'a',
-          { className: classes.a },
+          null,
           this.props.previous
         )
       );
@@ -180,8 +109,7 @@ var PaginationPrevious = (function (_Component2) {
 PaginationPrevious.propTypes = {
   page: _propTypes2['default'].number,
   pages: _propTypes2['default'].number,
-  itemClicked: _propTypes2['default'].func.isRequired,
-  classes: _propTypes2['default'].object.isRequired
+  itemClicked: _propTypes2['default'].func.isRequired
 };
 
 var Pagination = (function (_Component3) {
@@ -196,7 +124,6 @@ var Pagination = (function (_Component3) {
   Pagination.prototype.renderPageItems = function renderPageItems(pages) {
     var _props3 = this.props;
     var page = _props3.page;
-    var classes = _props3.classes;
     var pagesToShow = _props3.pagesToShow;
 
     var pageItems = [];
@@ -211,16 +138,16 @@ var Pagination = (function (_Component3) {
         if (pagesCount - (page - 1) < 0) {
           pageItems.push(_react2['default'].createElement(
             'li',
-            { key: 0, className: 'pagination__item ' + classes.pagination__item + ' ' + (page == 1 ? 'active' : '') },
+            { key: 0, className: 'pagination__item ' + (page == 1 ? 'active' : '') },
             _react2['default'].createElement(
               'a',
-              { className: classes.a, onClick: this.props.changePage(1) },
+              { onClick: this.props.changePage(1) },
               1
             )
           ));
           pageItems.push(_react2['default'].createElement(
             'li',
-            { key: 'ellip_first', className: 'pagination__ellipsis ' + classes.pagination__ellipsis },
+            { key: 'ellip_first', className: 'pagination__ellipsis' },
             '…'
           ));
         }
@@ -241,10 +168,10 @@ var Pagination = (function (_Component3) {
         for (var i = start; i <= end; i++) {
           pageItems.push(_react2['default'].createElement(
             'li',
-            { key: i, className: 'pagination__item ' + classes.pagination__item + ' ' + (i == page ? 'active' : '') },
+            { key: i, className: 'pagination__item ' + (i == page ? 'active' : '') },
             _react2['default'].createElement(
               'a',
-              { className: classes.a, onClick: this.props.changePage(i) },
+              { onClick: this.props.changePage(i) },
               i
             )
           ));
@@ -254,15 +181,15 @@ var Pagination = (function (_Component3) {
         if (pagesCount + page < pages) {
           pageItems.push(_react2['default'].createElement(
             'li',
-            { key: 'ellip_last', className: 'pagination__ellipsis ' + classes.pagination__ellipsis },
+            { key: 'ellip_last', className: 'pagination__ellipsis' },
             '…'
           ));
           pageItems.push(_react2['default'].createElement(
             'li',
-            { key: 9999, className: 'pagination__item ' + classes.pagination__item + ' ' + (page == pages ? 'active' : '') },
+            { key: 9999, className: 'pagination__item ' + (page == pages ? 'active' : '') },
             _react2['default'].createElement(
               'a',
-              { className: classes.a, onClick: this.props.changePage(pages) },
+              { onClick: this.props.changePage(pages) },
               pages
             )
           ));
@@ -274,10 +201,10 @@ var Pagination = (function (_Component3) {
           for (var i = 1; i <= pages; i++) {
             pageItems.push(_react2['default'].createElement(
               'li',
-              { key: i, className: 'pagination__item ' + classes.pagination__item + ' ' + (i == page ? 'active' : '') },
+              { key: i, className: 'pagination__item ' + (i == page ? 'active' : '') },
               _react2['default'].createElement(
                 'a',
-                { className: classes.a, onClick: this.props.changePage(i) },
+                { onClick: this.props.changePage(i) },
                 i
               )
             ));
@@ -294,19 +221,17 @@ var Pagination = (function (_Component3) {
     var perPage = _props4.perPage;
     var total = _props4.total;
     var page = _props4.page;
-    var classes = _props4.classes;
 
     var pages = Math.ceil(total / perPage);
     return _react2['default'].createElement(
       'ul',
-      { className: 'pagination ' + classes.pagination },
+      { className: 'pagination' },
       _react2['default'].createElement(PaginationPrevious, {
         page: page,
         pages: pages,
         itemClicked: function (num) {
           return _this.props.changePage(num);
         },
-        classes: classes,
         previous: this.props.previous }),
       this.renderPageItems(pages),
       _react2['default'].createElement(PaginationNext, {
@@ -315,7 +240,6 @@ var Pagination = (function (_Component3) {
         itemClicked: function (num) {
           return _this.props.changePage(num);
         },
-        classes: classes,
         next: this.props.next })
     );
   };
@@ -343,12 +267,11 @@ Pagination.propTypes = {
   total: _propTypes2['default'].number.isRequired,
   page: _propTypes2['default'].number,
   changePage: _propTypes2['default'].func.isRequired,
-  classes: _propTypes2['default'].object.isRequired,
   styles: _propTypes2['default'].object,
   previous: _propTypes2['default'].string,
   next: _propTypes2['default'].string,
   pagesToShow: _propTypes2['default'].number
 };
 
-exports['default'] = _reactJss2['default'](styles)(Pagination);
+exports['default'] = Pagination;
 module.exports = exports['default'];
