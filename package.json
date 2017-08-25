@@ -1,6 +1,6 @@
 {
   "name": "@salocreative/react-pagination",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Simple React pagination component.",
   "main": "./dist/modules/index.js",
   "scripts": {

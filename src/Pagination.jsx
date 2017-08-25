@@ -172,8 +172,8 @@ Pagination.propTypes = {
   page: PropTypes.number,
   changePage: PropTypes.func.isRequired,
   styles: PropTypes.object,
-  previous: PropTypes.string,
-  next: PropTypes.string,
+  previous: PropTypes.any,
+  next: PropTypes.any,
   pagesToShow: PropTypes.number
 };
 

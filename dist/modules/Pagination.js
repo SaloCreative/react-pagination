@@ -268,8 +268,8 @@ Pagination.propTypes = {
   page: _propTypes2['default'].number,
   changePage: _propTypes2['default'].func.isRequired,
   styles: _propTypes2['default'].object,
-  previous: _propTypes2['default'].string,
-  next: _propTypes2['default'].string,
+  previous: _propTypes2['default'].any,
+  next: _propTypes2['default'].any,
   pagesToShow: _propTypes2['default'].number
 };
 
