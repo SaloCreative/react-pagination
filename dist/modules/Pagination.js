@@ -125,6 +125,8 @@ var Pagination = (function (_Component3) {
     var _props3 = this.props;
     var page = _props3.page;
     var pagesToShow = _props3.pagesToShow;
+    var showLast = _props3.showLast;
+    var showFirst = _props3.showFirst;
 
     var pageItems = [];
     var pagesCount = Math.floor(parseInt(pagesToShow) / 2);
@@ -136,15 +138,17 @@ var Pagination = (function (_Component3) {
 
         // Add first page and ellipsis
         if (pagesCount - (page - 1) < 0) {
-          pageItems.push(_react2['default'].createElement(
-            'li',
-            { key: 0, className: 'pagination__item ' + (page == 1 ? 'active' : '') },
-            _react2['default'].createElement(
-              'a',
-              { onClick: this.props.changePage(1) },
-              1
-            )
-          ));
+          if (showFirst) {
+            pageItems.push(_react2['default'].createElement(
+              'li',
+              { key: 0, className: 'pagination__item ' + (page == 1 ? 'active' : '') },
+              _react2['default'].createElement(
+                'a',
+                { onClick: this.props.changePage(1) },
+                1
+              )
+            ));
+          }
           pageItems.push(_react2['default'].createElement(
             'li',
             { key: 'ellip_first', className: 'pagination__ellipsis' },
@@ -184,15 +188,17 @@ var Pagination = (function (_Component3) {
             { key: 'ellip_last', className: 'pagination__ellipsis' },
             '…'
           ));
-          pageItems.push(_react2['default'].createElement(
-            'li',
-            { key: 9999, className: 'pagination__item ' + (page == pages ? 'active' : '') },
-            _react2['default'].createElement(
-              'a',
-              { onClick: this.props.changePage(pages) },
-              pages
-            )
-          ));
+          if (showLast) {
+            pageItems.push(_react2['default'].createElement(
+              'li',
+              { key: 9999, className: 'pagination__item ' + (page == pages ? 'active' : '') },
+              _react2['default'].createElement(
+                'a',
+                { onClick: this.props.changePage(pages) },
+                pages
+              )
+            ));
+          }
         }
       }
 
@@ -259,7 +265,9 @@ Pagination.defaultProps = {
   },
   previous: '<<',
   next: '>>',
-  pagesToShow: 0
+  pagesToShow: 0,
+  showLast: true,
+  showFirst: true
 };
 
 Pagination.propTypes = {
@@ -270,7 +278,9 @@ Pagination.propTypes = {
   styles: _propTypes2['default'].object,
   previous: _propTypes2['default'].any,
   next: _propTypes2['default'].any,
-  pagesToShow: _propTypes2['default'].number
+  pagesToShow: _propTypes2['default'].number,
+  showLast: _propTypes2['default'].bool,
+  showFirst: _propTypes2['default'].bool
 };
 
 exports['default'] = Pagination;

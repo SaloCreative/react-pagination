@@ -60,7 +60,7 @@ PaginationPrevious.propTypes = {
 class Pagination extends Component {
 
   renderPageItems(pages) {
-    const { page, pagesToShow } = this.props;
+    const { page, pagesToShow, showLast, showFirst } = this.props;
     let pageItems = [];
     const pagesCount = Math.floor(parseInt(pagesToShow)/2);
     // Check there ius more than one page of results
@@ -71,11 +71,13 @@ class Pagination extends Component {
 
         // Add first page and ellipsis
         if ((pagesCount - (page - 1)) < 0) {
-          pageItems.push(
-            <li key={ 0 } className={ `pagination__item ${ page == 1 ? 'active' : '' }` } >
-              <a onClick={ this.props.changePage(1) }>{ 1 }</a>
-            </li>
-          );
+          if (showFirst) {
+            pageItems.push(
+              <li key={ 0 } className={ `pagination__item ${ page == 1 ? 'active' : '' }` } >
+                <a onClick={ this.props.changePage(1) }>{ 1 }</a>
+              </li>
+            );
+          }
           pageItems.push(
             <li key='ellip_first' className={ `pagination__ellipsis` }>…</li>
           );
@@ -105,11 +107,13 @@ class Pagination extends Component {
           pageItems.push(
             <li key='ellip_last' className={ `pagination__ellipsis` }>…</li>
           );
-          pageItems.push(
-            <li key={ 9999 } className={ `pagination__item ${ page == pages ? 'active' : '' }` } >
-              <a onClick={ this.props.changePage(pages) }>{ pages }</a>
-            </li>
-          );
+          if (showLast) {
+            pageItems.push(
+              <li key={ 9999 } className={ `pagination__item ${ page == pages ? 'active' : '' }` } >
+                <a onClick={ this.props.changePage(pages) }>{ pages }</a>
+              </li>
+            );
+          }
         }
       }
 
@@ -163,7 +167,9 @@ Pagination.defaultProps = {
   },
   previous: '<<',
   next: '>>',
-  pagesToShow: 0
+  pagesToShow: 0,
+  showLast: true,
+  showFirst: true
 };
 
 Pagination.propTypes = {
@@ -174,7 +180,9 @@ Pagination.propTypes = {
   styles: PropTypes.object,
   previous: PropTypes.any,
   next: PropTypes.any,
-  pagesToShow: PropTypes.number
+  pagesToShow: PropTypes.number,
+  showLast: PropTypes.bool,
+  showFirst: PropTypes.bool
 };
 
 
